@@ -29,7 +29,7 @@ namespace LiteCut
             var result = FileDialog.ShowDialog();
             if (result == DialogResult.OK)
             {
-                PickFile(FileNameTextBox.Text);
+                PickFile(FileDialog.FileName);
             }
         }
 
@@ -38,10 +38,13 @@ namespace LiteCut
             try
             {
                 var info = await Compression.GetVideoInfoAsync(path);
-                StartTimeBox.Value = 0;
-                EndTimeBox.Maximum = (decimal)info.Duration.TotalSeconds;
-                EndTimeBox.Value = (decimal)info.Duration.TotalSeconds;
-                FileNameTextBox.Text = path;
+                StartTimeBox.Invoke(() =>
+                {
+                    StartTimeBox.Value = 0;
+                    EndTimeBox.Maximum = (decimal)info.Duration.TotalSeconds;
+                    EndTimeBox.Value = (decimal)info.Duration.TotalSeconds;
+                    FileNameTextBox.Text = path;
+                });
             }
             catch
             {

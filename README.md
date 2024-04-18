@@ -13,4 +13,5 @@ A quick tool for cutting and compressing video down to a specified size, with th
 ---- 
 
 ![Screenshot of open with](./repo_resources/Screenshot_openwith.png)
+
 When you run the file, LiteCut will add itself to your "open with..." menu in Windows, so you can quickly start it from any .mp4 file. If you move LiteCut, where that option links to will be updated as soon as you run it again!

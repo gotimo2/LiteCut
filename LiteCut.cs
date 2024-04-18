@@ -41,7 +41,7 @@ namespace LiteCut
                 StartTimeBox.Value = 0;
                 EndTimeBox.Maximum = (decimal)info.Duration.TotalSeconds;
                 EndTimeBox.Value = (decimal)info.Duration.TotalSeconds;
-                FileNameTextBox.Text = FileDialog.FileName;
+                FileNameTextBox.Text = path;
             }
             catch
             {

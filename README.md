@@ -6,7 +6,7 @@ A quick tool for cutting and compressing video down to a specified size, with th
 
 ---- 
 
-# ## You NEED ffmpeg to use LiteCut.  The fastest way to install that is to use `winget install ffmpeg`.
+## You NEED ffmpeg to use LiteCut.  The fastest way to install that is to use `winget install ffmpeg`.
 
 # [Download LiteCut here!](https://github.com/gotimo2/LiteCut/releases)
 

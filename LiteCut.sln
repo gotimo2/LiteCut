@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TighteningStrap", "TighteningStrap.csproj", "{756383EC-18DF-4EB8-95F1-C0670AF5B278}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiteCut", "LiteCut.csproj", "{756383EC-18DF-4EB8-95F1-C0670AF5B278}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

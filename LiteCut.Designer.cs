@@ -1,6 +1,6 @@
 ﻿namespace TighteningStrap
 {
-    partial class TighteningStrapForm
+    partial class LiteCut
     {
         /// <summary>
         ///  Required designer variable.
@@ -45,7 +45,6 @@
             // 
             // FileDialog
             // 
-            FileDialog.CheckPathExists = false;
             FileDialog.FileName = "file";
             FileDialog.InitialDirectory = "./";
             // 
@@ -57,6 +56,7 @@
             PickFileButton.TabIndex = 0;
             PickFileButton.Text = "Pick file";
             PickFileButton.UseVisualStyleBackColor = true;
+            PickFileButton.Click += PickFileButton_Click;
             // 
             // FileNameTextBox
             // 

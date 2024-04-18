@@ -14,10 +14,10 @@ namespace LiteCut
         private string inputFilePath;
         private string outputFilePath;
         private int targetFileSizeMB;
-        private double startTime;
-        private double endTime;
+        private TimeSpan startTime;
+        private TimeSpan endTime;
 
-        public Compression(string inputFile, string outputFile, int targetFileSizeMB, double startTime, double endTime)
+        public Compression(string inputFile, string outputFile, int targetFileSizeMB, TimeSpan startTime, TimeSpan endTime)
         {
             this.inputFilePath = inputFile;
             this.outputFilePath = outputFile;
@@ -26,7 +26,7 @@ namespace LiteCut
             this.endTime = endTime;
         }
 
-        public async Task<IMediaAnalysis> GetVideoInfoAsync()
+        public static async Task<IMediaAnalysis> GetVideoInfoAsync(string inputFilePath)
         {
             var videoInfo = await FFProbe.AnalyseAsync(inputFilePath);
             return videoInfo;
@@ -37,7 +37,7 @@ namespace LiteCut
 
             double targetFileSizeBytes = targetFileSizeMB * 1024;
             var videoInfo = await FFProbe.AnalyseAsync(inputFilePath);
-            double durationSeconds = videoInfo.Duration.TotalSeconds;
+            double durationSeconds = endTime.TotalSeconds - startTime.TotalSeconds;
             int targetBitrate = (int)(targetFileSizeBytes * 7 / durationSeconds);
 
             Action<double>? compressionProgressAction = new Action<double>(p =>
@@ -54,9 +54,8 @@ namespace LiteCut
                 options.WithVideoBitrate(targetBitrate);
                 options.WithVideoCodec(VideoCodec.LibX264);
                 options.WithDuration(TimeSpan.FromSeconds(durationSeconds));
-                options.Seek(TimeSpan.FromSeconds(startTime));
-                options.EndSeek(TimeSpan.FromSeconds(endTime));
-                
+                options.Seek(startTime);
+                options.EndSeek(endTime);
             })
             .NotifyOnProgress(compressionProgressAction, TimeSpan.FromSeconds(durationSeconds))
             .NotifyOnOutput((output) =>

@@ -40,6 +40,9 @@
             StartTimeBox = new NumericUpDown();
             EndTimeBox = new NumericUpDown();
             DashLabel = new Label();
+            cutlabel = new Label();
+            secondsstartlabel = new Label();
+            SecondsEndLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)MbBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)StartTimeBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)EndTimeBox).BeginInit();
@@ -80,7 +83,7 @@
             // MergeAudioTrackCheckBox
             // 
             MergeAudioTrackCheckBox.AutoSize = true;
-            MergeAudioTrackCheckBox.Location = new Point(23, 144);
+            MergeAudioTrackCheckBox.Location = new Point(23, 169);
             MergeAudioTrackCheckBox.Name = "MergeAudioTrackCheckBox";
             MergeAudioTrackCheckBox.Size = new Size(127, 19);
             MergeAudioTrackCheckBox.TabIndex = 10;
@@ -124,14 +127,14 @@
             // 
             // StartTimeBox
             // 
-            StartTimeBox.Location = new Point(23, 95);
+            StartTimeBox.Location = new Point(23, 118);
             StartTimeBox.Name = "StartTimeBox";
             StartTimeBox.Size = new Size(105, 23);
             StartTimeBox.TabIndex = 16;
             // 
             // EndTimeBox
             // 
-            EndTimeBox.Location = new Point(152, 95);
+            EndTimeBox.Location = new Point(152, 118);
             EndTimeBox.Name = "EndTimeBox";
             EndTimeBox.Size = new Size(100, 23);
             EndTimeBox.TabIndex = 17;
@@ -139,17 +142,47 @@
             // DashLabel
             // 
             DashLabel.AutoSize = true;
-            DashLabel.Location = new Point(134, 97);
+            DashLabel.Location = new Point(134, 118);
             DashLabel.Name = "DashLabel";
             DashLabel.Size = new Size(12, 15);
             DashLabel.TabIndex = 18;
             DashLabel.Text = "-";
+            // 
+            // cutlabel
+            // 
+            cutlabel.AutoSize = true;
+            cutlabel.Location = new Point(101, 100);
+            cutlabel.Name = "cutlabel";
+            cutlabel.Size = new Size(77, 15);
+            cutlabel.TabIndex = 19;
+            cutlabel.Text = "Cut between ";
+            // 
+            // secondsstartlabel
+            // 
+            secondsstartlabel.AutoSize = true;
+            secondsstartlabel.Location = new Point(23, 146);
+            secondsstartlabel.Name = "secondsstartlabel";
+            secondsstartlabel.Size = new Size(105, 15);
+            secondsstartlabel.TabIndex = 20;
+            secondsstartlabel.Text = "seconds from start";
+            // 
+            // SecondsEndLabel
+            // 
+            SecondsEndLabel.AutoSize = true;
+            SecondsEndLabel.Location = new Point(152, 146);
+            SecondsEndLabel.Name = "SecondsEndLabel";
+            SecondsEndLabel.Size = new Size(102, 15);
+            SecondsEndLabel.TabIndex = 21;
+            SecondsEndLabel.Text = "seconds from end";
             // 
             // LiteCut
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(382, 308);
+            Controls.Add(SecondsEndLabel);
+            Controls.Add(secondsstartlabel);
+            Controls.Add(cutlabel);
             Controls.Add(DashLabel);
             Controls.Add(EndTimeBox);
             Controls.Add(StartTimeBox);
@@ -184,5 +217,8 @@
         private NumericUpDown StartTimeBox;
         private NumericUpDown EndTimeBox;
         private Label DashLabel;
+        private Label cutlabel;
+        private Label secondsstartlabel;
+        private Label SecondsEndLabel;
     }
 }

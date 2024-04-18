@@ -6,7 +6,7 @@
 
 # [Download LiteCut here!](https://github.com/gotimo2/LiteCut/releases)
 
-![Screenshot of the app]([./repo_resources/Screenshot_app.png)
+![Screenshot of the app](./repo_resources/Screenshot_app.png)
 
 A quick tool for cutting and compressing video down to a specified size, with the ability to choose where to cut and merge audio tracks using ffmpeg.
 

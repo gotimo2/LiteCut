@@ -1,44 +1,46 @@
-using FFMpegCore;
-using FFMpegCore.Enums;
-using LiteCut;
-using System;
-
 namespace LiteCut
 {
     public partial class LiteCut : Form
     {
-        string intialFilePath = "";
-        public LiteCut()
-        {
-            string[] args = Environment.GetCommandLineArgs();
+        string initialFilePath = "";
+        public LiteCut(string[] args)
+        {   
             if (args.Length == 1)
             {
                 if (File.Exists(args[0]))
                 {
-                    intialFilePath = args[0];
+                    initialFilePath = args[0];
                 }
             }
             InitializeComponent();
-            FileNameTextBox.Text = intialFilePath;
+            if (!string.IsNullOrEmpty(initialFilePath))
+            {
+                PickFile(initialFilePath);
+            }
         }
 
-        private async void PickFileButton_Click(object sender, EventArgs e)
+        private void PickFileButton_Click(object sender, EventArgs e)
         {
             var result = FileDialog.ShowDialog();
             if (result == DialogResult.OK)
             {
+                PickFile(FileNameTextBox.Text);
+            }
+        }
+
+        private async void PickFile(string path)
+        {
+            try
+            {
+                var info = await Compression.GetVideoInfoAsync(path);
+                StartTimeBox.Value = 0;
+                EndTimeBox.Maximum = (decimal)info.Duration.TotalSeconds;
+                EndTimeBox.Value = (decimal)info.Duration.TotalSeconds;
                 FileNameTextBox.Text = FileDialog.FileName;
-                try
-                {
-                    var info = await Compression.GetVideoInfoAsync(FileNameTextBox.Text);
-                    StartTimeBox.Value = 0;
-                    EndTimeBox.Maximum = (decimal)info.Duration.TotalSeconds;
-                    EndTimeBox.Value = (decimal)info.Duration.TotalSeconds;
-                }
-                catch
-                {
-                    MessageBox.Show("Cannot retrieve video info. please check the provided video.");
-                }
+            }
+            catch
+            {
+                MessageBox.Show("Cannot retrieve video info. please check the provided video.");
             }
         }
 
@@ -67,6 +69,10 @@ namespace LiteCut
             try
             {
                 await compression.CompressVideo().ConfigureAwait(false);
+            }
+            catch (FileNotFoundException ex)
+            {
+                MessageBox.Show($"File not found: {ex.FileName}. if this isn't your video file, this error is likely because you haven't installed ffmpeg.");
             }
             catch (Exception ex)
             {

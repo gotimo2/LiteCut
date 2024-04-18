@@ -96,6 +96,7 @@
             CompressButton.TabIndex = 6;
             CompressButton.Text = "Compress!";
             CompressButton.UseVisualStyleBackColor = true;
+            CompressButton.Click += CompressButton_Click;
             // 
             // SmallSizeRadioButton
             // 
@@ -156,7 +157,7 @@
             ProgressBar.Size = new Size(337, 23);
             ProgressBar.TabIndex = 12;
             // 
-            // TighteningStrapForm
+            // LiteCut
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -173,7 +174,7 @@
             Controls.Add(StartTimeTextBox);
             Controls.Add(FileNameTextBox);
             Controls.Add(PickFileButton);
-            Name = "TighteningStrapForm";
+            Name = "LiteCut";
             Text = "TighteningStrap";
             ResumeLayout(false);
             PerformLayout();

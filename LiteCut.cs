@@ -1,5 +1,6 @@
 using FFMpegCore;
 using FFMpegCore.Enums;
+using LiteCut;
 
 namespace TighteningStrap
 {
@@ -19,20 +20,10 @@ namespace TighteningStrap
             }
         }
 
-        private async Task CompressVideo(string inputFile, string outputFile, int targetFileSizeMB)
+        private void CompressButton_Click(object sender, EventArgs e)
         {
-            // Calculate an approximate bitrate based on the target file size
-            double targetFileSizeBytes = targetFileSizeMB * 1024 * 1024;
-            var videoInfo = await FFProbe.AnalyseAsync(inputFile);
-            double durationSeconds = videoInfo.Duration.TotalSeconds;
-            int targetBitrate = (int)(targetFileSizeBytes * 8 / durationSeconds);
 
-            // Two-pass encoding for better quality control
-            string pass1Args = $"-y -i {inputFile} -c:v libx265 -b:v {targetBitrate}k -pass 1 -f null NUL";
-            string pass2Args = $"-y -i {inputFile} -c:v libx265 -b:v {targetBitrate}k -pass 2 {outputFile}";
-
-            await FFMpegArguments.FromFileInput(inputFile).OutputToFile(outputFile, true, options => options.WithVideoCodec(VideoCodec.LibX265))
-                                .ProcessAsynchronously();
+            Compression.CompressVideo(FileNameTextBox.Text, FileNameTextBox.Text + "_output.mp4", 25, 0D, 90D)
         }
     }
 }

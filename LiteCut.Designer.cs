@@ -1,4 +1,4 @@
-﻿namespace TighteningStrap
+﻿namespace LiteCut
 {
     partial class LiteCut
     {
@@ -43,6 +43,7 @@
             cutlabel = new Label();
             secondsstartlabel = new Label();
             SecondsEndLabel = new Label();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)MbBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)StartTimeBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)EndTimeBox).BeginInit();
@@ -67,6 +68,7 @@
             // 
             FileNameTextBox.Location = new Point(23, 66);
             FileNameTextBox.Name = "FileNameTextBox";
+            FileNameTextBox.ReadOnly = true;
             FileNameTextBox.Size = new Size(229, 23);
             FileNameTextBox.TabIndex = 2;
             // 
@@ -83,6 +85,8 @@
             // MergeAudioTrackCheckBox
             // 
             MergeAudioTrackCheckBox.AutoSize = true;
+            MergeAudioTrackCheckBox.Checked = true;
+            MergeAudioTrackCheckBox.CheckState = CheckState.Checked;
             MergeAudioTrackCheckBox.Location = new Point(23, 169);
             MergeAudioTrackCheckBox.Name = "MergeAudioTrackCheckBox";
             MergeAudioTrackCheckBox.Size = new Size(127, 19);
@@ -131,6 +135,7 @@
             StartTimeBox.Name = "StartTimeBox";
             StartTimeBox.Size = new Size(105, 23);
             StartTimeBox.TabIndex = 16;
+            StartTimeBox.ValueChanged += StartTimeBox_ValueChanged;
             // 
             // EndTimeBox
             // 
@@ -138,6 +143,7 @@
             EndTimeBox.Name = "EndTimeBox";
             EndTimeBox.Size = new Size(100, 23);
             EndTimeBox.TabIndex = 17;
+            EndTimeBox.ValueChanged += EndTimeBox_ValueChanged;
             // 
             // DashLabel
             // 
@@ -171,15 +177,25 @@
             SecondsEndLabel.AutoSize = true;
             SecondsEndLabel.Location = new Point(152, 146);
             SecondsEndLabel.Name = "SecondsEndLabel";
-            SecondsEndLabel.Size = new Size(102, 15);
+            SecondsEndLabel.Size = new Size(105, 15);
             SecondsEndLabel.TabIndex = 21;
-            SecondsEndLabel.Text = "seconds from end";
+            SecondsEndLabel.Text = "seconds from start";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(284, 118);
+            label1.Name = "label1";
+            label1.Size = new Size(74, 15);
+            label1.TabIndex = 22;
+            label1.Text = "Compress to";
             // 
             // LiteCut
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(382, 308);
+            Controls.Add(label1);
             Controls.Add(SecondsEndLabel);
             Controls.Add(secondsstartlabel);
             Controls.Add(cutlabel);
@@ -220,5 +236,6 @@
         private Label cutlabel;
         private Label secondsstartlabel;
         private Label SecondsEndLabel;
+        private Label label1;
     }
 }

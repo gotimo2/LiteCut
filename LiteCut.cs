@@ -1,8 +1,9 @@
 using FFMpegCore;
 using FFMpegCore.Enums;
 using LiteCut;
+using System;
 
-namespace TighteningStrap
+namespace LiteCut
 {
     public partial class LiteCut : Form
     {
@@ -21,24 +22,25 @@ namespace TighteningStrap
                 {
                     var info = await Compression.GetVideoInfoAsync(FileNameTextBox.Text);
                     StartTimeBox.Value = 0;
-                    EndTimeBox.Value = (decimal) info.Duration.TotalSeconds;
+                    EndTimeBox.Value = (decimal)info.Duration.TotalSeconds;
                     EndTimeBox.Maximum = (decimal)info.Duration.TotalSeconds;
                 }
-                catch 
+                catch
                 {
-                    ;
+                    MessageBox.Show("Cannot retrieve video info. please check the provided video.");
                 }
             }
         }
 
         private async void CompressButton_Click(object sender, EventArgs e)
         {
-            var size = (int) MbBox.Value;
+            var size = (int)MbBox.Value;
             var fileName = FileNameTextBox.Text;
-            var startTime = TimeSpan.FromSeconds((double) StartTimeBox.Value);
-            var endTime = TimeSpan.FromSeconds((double) EndTimeBox.Value);
+            var startTime = TimeSpan.FromSeconds((double)StartTimeBox.Value);
+            var endTime = TimeSpan.FromSeconds((double)EndTimeBox.Value);
+            var mergeAudio = MergeAudioTrackCheckBox.Checked;
 
-            Compression compression = new Compression(fileName , fileName + "_compressed.mp4", size , startTime, endTime);
+            Compression compression = new Compression(fileName, fileName + "_compressed.mp4", size, startTime, endTime, mergeAudio );
             compression.CompressionProgress += (sender, progress) =>
             {
                 if (ProgressBar.InvokeRequired)
@@ -50,8 +52,42 @@ namespace TighteningStrap
                 }
 
             };
+
+            ToggleFormControls(false);
             await compression.CompressVideo().ConfigureAwait(false);
+            MessageBox.Show("Compression done, file can be found under " + fileName + "_compressed.mp4");
+            ToggleFormControls(true);
+
+            ProgressBar.Invoke(new MethodInvoker(() =>
+            {
+                ProgressBar.Value = 0;
+            }));
+
         }
 
+
+        private void ToggleFormControls(bool enabled)
+        {
+            PickFileButton.Invoke(
+                 new MethodInvoker(() =>
+                 {
+                     PickFileButton.Enabled = enabled;
+                     MbBox.Enabled = enabled;
+                     StartTimeBox.Enabled = enabled;
+                     EndTimeBox.Enabled = enabled;
+                 }
+                )
+          );
+        }
+
+        private void StartTimeBox_ValueChanged(object sender, EventArgs e)
+        {
+            EndTimeBox.Minimum = StartTimeBox.Value;
+        }
+
+        private void EndTimeBox_ValueChanged(object sender, EventArgs e)
+        {
+            StartTimeBox.Maximum = EndTimeBox.Value;
+        }
     }
 }

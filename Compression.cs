@@ -16,8 +16,9 @@ namespace LiteCut
         private int targetFileSizeMB;
         private TimeSpan startTime;
         private TimeSpan endTime;
+        private bool mergeAudio;
 
-        public Compression(string inputFile, string outputFile, int targetFileSizeMB, TimeSpan startTime, TimeSpan endTime)
+        public Compression(string inputFile, string outputFile, int targetFileSizeMB, TimeSpan startTime, TimeSpan endTime, bool mergeAudio)
         {
             this.inputFilePath = inputFile;
             this.outputFilePath = outputFile;
@@ -48,6 +49,7 @@ namespace LiteCut
 
             await FFMpegArguments.FromFileInput(inputFilePath).OutputToFile(outputFilePath, true, options =>
             {
+
                 options.UsingMultithreading(true);
                 options.WithAudioBitrate(AudioQuality.Normal);
                 options.WithSpeedPreset(Speed.VeryFast);
@@ -56,6 +58,10 @@ namespace LiteCut
                 options.WithDuration(TimeSpan.FromSeconds(durationSeconds));
                 options.Seek(startTime);
                 options.EndSeek(endTime);
+                if (mergeAudio)
+                {
+                    options.WithCustomArgument("-filter_complex \"[0:a:0][0:a:1]amix=inputs=2:duration=longest[aout]\" -map 0:v:0 -map \"[aout]\" -c:v copy -c:a aac -b:a 320k");
+                }
             })
             .NotifyOnProgress(compressionProgressAction, TimeSpan.FromSeconds(durationSeconds))
             .NotifyOnOutput((output) =>

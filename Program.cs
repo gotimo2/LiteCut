@@ -1,4 +1,4 @@
-namespace TighteningStrap
+namespace LiteCut
 {
     internal static class Program
     {

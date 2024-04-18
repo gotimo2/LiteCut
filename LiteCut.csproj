@@ -9,7 +9,6 @@
     <SupportedOSPlatformVersion>8.0</SupportedOSPlatformVersion>
     <StartupObject>LiteCut.Program</StartupObject>
     <ApplicationIcon>Resources\LiteCut.ico</ApplicationIcon>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <ItemGroup>

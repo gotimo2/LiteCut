@@ -17,6 +17,11 @@ namespace LiteCut
             {
                 PickFile(initialFilePath);
             }
+            try
+            {
+                FileAssociation.associateFile();
+            }
+            catch { } //it's really not too bad if it doesn't work.
         }
 
         private void PickFileButton_Click(object sender, EventArgs e)

@@ -20,10 +20,14 @@ namespace TighteningStrap
             }
         }
 
-        private void CompressButton_Click(object sender, EventArgs e)
+        private async void CompressButton_Click(object sender, EventArgs e)
         {
-
-            Compression.CompressVideo(FileNameTextBox.Text, FileNameTextBox.Text + "_output.mp4", 25, 0D, 90D)
+            Compression compression = new Compression(FileNameTextBox.Text, FileNameTextBox.Text + "_output.mp4", 25, 0D, 90D);
+            compression.CompressionProgress += async (progress) =>
+            {
+                ProgressBar.Value = (int)progress;
+            };
+            await compression.CompressVideo().ConfigureAwait(false);
         }
     }
 }

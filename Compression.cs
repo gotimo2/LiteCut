@@ -5,7 +5,7 @@ namespace LiteCut
 {
     internal class Compression
     {
-        public EventHandler<double>? CompressionProgress;
+        public Action<double>? CompressionProgress;
 
         private string inputFilePath;
         private string outputFilePath;
@@ -13,7 +13,7 @@ namespace LiteCut
         private double startTime;
         private double endTime;
 
-        Compression(string inputFile, string outputFile, int targetFileSizeMB, double startTime, double endTime)
+        public Compression(string inputFile, string outputFile, int targetFileSizeMB, double startTime, double endTime)
         {
             this.inputFilePath = inputFile;
             this.outputFilePath = outputFile;
@@ -38,6 +38,12 @@ namespace LiteCut
 
             // Two-pass encoding for better quality control
 
+            Action<double>? compressionProgressAction = new Action<double>(p =>
+            {
+                Console.WriteLine("progress: " + p);
+                CompressionProgress?.Invoke(p);
+            });
+
             await FFMpegArguments.FromFileInput(inputFilePath).OutputToFile(outputFilePath, true, options =>
             {
                 options.WithVideoCodec(VideoCodec.LibX265);
@@ -46,10 +52,7 @@ namespace LiteCut
                 options.Seek(TimeSpan.FromSeconds(startTime));
                 options.EndSeek(TimeSpan.FromSeconds(endTime));
             })
-            .NotifyOnProgress(progress =>
-            {
-            CompressionProgress?.Invoke(this, progress);
-            })
+            .NotifyOnProgress(compressionProgressAction, TimeSpan.FromSeconds(durationSeconds))
            .ProcessAsynchronously();
         }
     }

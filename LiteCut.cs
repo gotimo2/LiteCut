@@ -23,7 +23,7 @@ namespace TighteningStrap
         private async void CompressButton_Click(object sender, EventArgs e)
         {
             Compression compression = new Compression(FileNameTextBox.Text, FileNameTextBox.Text + "_output.mp4", 25, 0D, 90D);
-            compression.CompressionProgress += async (progress) =>
+            compression.CompressionProgress += (sender, progress) =>
             {
                 ProgressBar.Value = (int)progress;
             };

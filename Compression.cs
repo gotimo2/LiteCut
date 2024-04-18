@@ -5,7 +5,11 @@ namespace LiteCut
 {
     internal class Compression
     {
-        public Action<double>? CompressionProgress;
+        public EventHandler<double>? CompressionProgress;
+
+        public EventHandler<string>? CompressionError;
+
+        public EventHandler<string>? CompressionOutput;
 
         private string inputFilePath;
         private string outputFilePath;
@@ -41,7 +45,7 @@ namespace LiteCut
             Action<double>? compressionProgressAction = new Action<double>(p =>
             {
                 Console.WriteLine("progress: " + p);
-                CompressionProgress?.Invoke(p);
+                CompressionProgress?.Invoke(this, p);
             });
 
             await FFMpegArguments.FromFileInput(inputFilePath).OutputToFile(outputFilePath, true, options =>
@@ -53,6 +57,14 @@ namespace LiteCut
                 options.EndSeek(TimeSpan.FromSeconds(endTime));
             })
             .NotifyOnProgress(compressionProgressAction, TimeSpan.FromSeconds(durationSeconds))
+            .NotifyOnOutput((output) =>
+            {
+                CompressionOutput?.Invoke(this, output);
+            })
+            .NotifyOnError((error) =>
+            {
+                CompressionError?.Invoke(this, error);
+            })
            .ProcessAsynchronously();
         }
     }

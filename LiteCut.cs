@@ -22,12 +22,25 @@ namespace TighteningStrap
 
         private async void CompressButton_Click(object sender, EventArgs e)
         {
-            Compression compression = new Compression(FileNameTextBox.Text, FileNameTextBox.Text + "_output.mp4", 25, 0D, 90D);
+            var size = (int)MbBox.Value;
+            var fileName = FileNameTextBox.Text;
+            var startTime = TimeSpan.FromSeconds((double) StartTimeBox.Value);
+            var endTime = TimeSpan.FromSeconds((double) EndTimeBox.Value);
+
+            Compression compression = new Compression(fileName , fileName + "_compressed.mp4", size , 0D, 90D);
             compression.CompressionProgress += (sender, progress) =>
             {
-                ProgressBar.Value = (int)progress;
+                if (ProgressBar.InvokeRequired)
+                {
+                    ProgressBar.Invoke(new MethodInvoker(() =>
+                    {
+                        ProgressBar.Value = (int)progress;
+                    }));
+                }
+
             };
             await compression.CompressVideo().ConfigureAwait(false);
         }
+
     }
 }

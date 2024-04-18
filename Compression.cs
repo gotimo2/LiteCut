@@ -34,13 +34,11 @@ namespace LiteCut
 
         public async Task CompressVideo()
         {
-            // Calculate an approximate bitrate based on the target file size
-            double targetFileSizeBytes = targetFileSizeMB * 1024 * 1024;
+
+            double targetFileSizeBytes = targetFileSizeMB * 1024;
             var videoInfo = await FFProbe.AnalyseAsync(inputFilePath);
             double durationSeconds = videoInfo.Duration.TotalSeconds;
-            int targetBitrate = (int)(targetFileSizeBytes * 8 / durationSeconds);
-
-            // Two-pass encoding for better quality control
+            int targetBitrate = (int)(targetFileSizeBytes * 7 / durationSeconds);
 
             Action<double>? compressionProgressAction = new Action<double>(p =>
             {
@@ -50,11 +48,15 @@ namespace LiteCut
 
             await FFMpegArguments.FromFileInput(inputFilePath).OutputToFile(outputFilePath, true, options =>
             {
-                options.WithVideoCodec(VideoCodec.LibX265);
+                options.UsingMultithreading(true);
+                options.WithAudioBitrate(AudioQuality.Normal);
+                options.WithSpeedPreset(Speed.VeryFast);
                 options.WithVideoBitrate(targetBitrate);
+                options.WithVideoCodec(VideoCodec.LibX264);
                 options.WithDuration(TimeSpan.FromSeconds(durationSeconds));
                 options.Seek(TimeSpan.FromSeconds(startTime));
                 options.EndSeek(TimeSpan.FromSeconds(endTime));
+                
             })
             .NotifyOnProgress(compressionProgressAction, TimeSpan.FromSeconds(durationSeconds))
             .NotifyOnOutput((output) =>

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LiteCut));
             FileDialog = new OpenFileDialog();
             PickFileButton = new Button();
             FileNameTextBox = new TextBox();
@@ -210,6 +211,7 @@
             Controls.Add(CompressButton);
             Controls.Add(FileNameTextBox);
             Controls.Add(PickFileButton);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "LiteCut";
             Text = "LiteCut";
             ((System.ComponentModel.ISupportInitialize)MbBox).EndInit();

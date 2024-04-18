@@ -7,9 +7,19 @@ namespace LiteCut
 {
     public partial class LiteCut : Form
     {
+        string intialFilePath = "";
         public LiteCut()
         {
+            string[] args = Environment.GetCommandLineArgs();
+            if (args.Length == 1)
+            {
+                if (File.Exists(args[0]))
+                {
+                    intialFilePath = args[0];
+                }
+            }
             InitializeComponent();
+            FileNameTextBox.Text = intialFilePath;
         }
 
         private async void PickFileButton_Click(object sender, EventArgs e)
@@ -54,7 +64,14 @@ namespace LiteCut
             };
 
             ToggleFormControls(false);
-            await compression.CompressVideo().ConfigureAwait(false);
+            try
+            {
+                await compression.CompressVideo().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error compressing file: " + ex.Message, "Error");
+            }
             MessageBox.Show("Compression done, file can be found under " + fileName + "_compressed.mp4");
             ToggleFormControls(true);
 

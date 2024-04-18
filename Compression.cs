@@ -52,7 +52,7 @@ namespace LiteCut
             {
                 if (mergeAudio)
                 {
-                    options.WithCustomArgument("-c:v copy -c:a aac -b:a 160k -ac 2 -filter_complex amerge=inputs=2");
+                    options.WithCustomArgument($"-c:v copy -c:a aac -b:a 160k -ac 2 -filter_complex amerge=inputs={videoInfo.AudioStreams.Count}");
                 }
                 options.UsingMultithreading(true);
                 options.WithAudioBitrate(AudioQuality.Normal);

@@ -22,8 +22,8 @@ namespace LiteCut
                 {
                     var info = await Compression.GetVideoInfoAsync(FileNameTextBox.Text);
                     StartTimeBox.Value = 0;
-                    EndTimeBox.Value = (decimal)info.Duration.TotalSeconds;
                     EndTimeBox.Maximum = (decimal)info.Duration.TotalSeconds;
+                    EndTimeBox.Value = (decimal)info.Duration.TotalSeconds;
                 }
                 catch
                 {

@@ -3,7 +3,7 @@ using FFMpegCore.Enums;
 
 namespace LiteCut
 {
-    internal class Compression
+    internal class CompressionTask
     {
         public EventHandler<double>? CompressionProgress;
 
@@ -11,32 +11,24 @@ namespace LiteCut
 
         public EventHandler<string>? CompressionOutput;
 
-        private string inputFilePath;
-        private string outputFilePath;
-        private int targetFileSizeMB;
-        private TimeSpan startTime;
-        private TimeSpan endTime;
-        private bool mergeAudio;
+        private readonly string inputFilePath;
+        private readonly string outputFilePath;
+        private readonly int targetFileSizeMB;
+        private readonly TimeSpan startTime;
+        private readonly TimeSpan endTime;
+        private readonly bool mergeAudio;
 
-        public Compression(string inputFile, string outputFile, int targetFileSizeMB, TimeSpan startTime, TimeSpan endTime, bool mergeAudio)
+        public CompressionTask(string inputFilePath, string outputFilePath, int targetFileSizeMB, TimeSpan startTime, TimeSpan endTime, bool mergeAudio)
         {
-            this.inputFilePath = inputFile;
-            this.outputFilePath = outputFile;
+            this.inputFilePath = inputFilePath;
+            this.outputFilePath = outputFilePath;
             this.targetFileSizeMB = targetFileSizeMB;
             this.startTime = startTime;
             this.endTime = endTime;
             this.mergeAudio = mergeAudio;
         }
-
-        public static async Task<IMediaAnalysis> GetVideoInfoAsync(string inputFilePath)
-        {
-            var videoInfo = await FFProbe.AnalyseAsync(inputFilePath);
-            return videoInfo;
-        }
-
         public async Task CompressVideo()
         {
-
             double targetFileSizeBytes = targetFileSizeMB * 1024;
             var videoInfo = await FFProbe.AnalyseAsync(inputFilePath);
             double durationSeconds = endTime.TotalSeconds - startTime.TotalSeconds;

@@ -6,7 +6,7 @@ namespace LiteCut
 {
     internal class FileAssociation
     {
-        public static void associateFile()
+        public static void AssociateFile()
         {
             var applicationInfo = new ApplicationInfo("LiteCut", "LiteCut", "LiteCut", Application.ExecutablePath);
             applicationInfo.SupportedExtensions.Add(".mp4");
@@ -16,12 +16,5 @@ namespace LiteCut
             registrationService.RegisterApplication(applicationInfo);
 
             }
-        public static bool IsAdministrator()
-        {
-            return (new WindowsPrincipal(WindowsIdentity.GetCurrent()))
-                      .IsInRole(WindowsBuiltInRole.Administrator);
-        }
-
-
     }
 }

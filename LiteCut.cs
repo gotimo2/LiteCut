@@ -1,3 +1,5 @@
+using FFMpegCore;
+
 namespace LiteCut
 {
     public partial class LiteCut : Form
@@ -19,7 +21,7 @@ namespace LiteCut
             }
             try
             {
-                FileAssociation.associateFile();
+                FileAssociation.AssociateFile();
             }
             catch { } //it's really not too bad if it doesn't work.
         }
@@ -37,7 +39,7 @@ namespace LiteCut
         {
             try
             {
-                var info = await Compression.GetVideoInfoAsync(path);
+                var info = await FFProbe.AnalyseAsync(path);
                 StartTimeBox.Invoke(() =>
                 {
                     StartTimeBox.Value = 0;
@@ -48,7 +50,7 @@ namespace LiteCut
             }
             catch
             {
-                MessageBox.Show("Cannot retrieve video info. please check the provided video.");
+                MessageBox.Show("Cannot retrieve video info. Please check the provided video, and if you have installed FFmpeg.");
             }
         }
 
@@ -60,7 +62,7 @@ namespace LiteCut
             var endTime = TimeSpan.FromSeconds((double)EndTimeBox.Value);
             var mergeAudio = MergeAudioTrackCheckBox.Checked;
 
-            Compression compression = new Compression(fileName, fileName + "_compressed.mp4", size, startTime, endTime, mergeAudio );
+            CompressionTask compression = new CompressionTask(fileName, fileName + "_compressed.mp4", size, startTime, endTime, mergeAudio );
             compression.CompressionProgress += (sender, progress) =>
             {
                 if (ProgressBar.InvokeRequired)
@@ -70,9 +72,7 @@ namespace LiteCut
                         ProgressBar.Value = (int)progress;
                     }));
                 }
-
             };
-
             ToggleFormControls(false);
             try
             {
@@ -95,7 +95,6 @@ namespace LiteCut
             }));
 
         }
-
 
         private void ToggleFormControls(bool enabled)
         {

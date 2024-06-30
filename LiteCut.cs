@@ -6,7 +6,30 @@ namespace LiteCut
     {
         string initialFilePath = "";
         public LiteCut(string[] args)
-        {   
+        {
+            //check if FFMpeg is installed and prompt to install it if not
+            try
+            {
+                FFMpeg.GetCodecs();
+            }
+            catch
+            {
+                DialogResult result = MessageBox.Show("FFMpeg is not installed, or has no codecs. Do you want to try to install it now?", "error", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    var installResult = InstallFFmpeg.installFFmpeg();
+                    if (installResult == true)
+                    {
+                        MessageBox.Show("Successfully installed FFMpeg!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to install FFMpeg.");
+                    }
+                }
+            }
+
+            //if opened via file association, get initial file path from arguments
             if (args.Length == 1)
             {
                 if (File.Exists(args[0]))
@@ -19,6 +42,8 @@ namespace LiteCut
             {
                 PickFile(initialFilePath);
             }
+
+            //associate a file path
             try
             {
                 FileAssociation.AssociateFile();
@@ -39,7 +64,7 @@ namespace LiteCut
         {
             try
             {
-                var info = await FFProbe.AnalyseAsync(path);
+                var info = await FFProbe.AnalyseAsync(path); //fetch duration of video and set the values of the time boxes
                 StartTimeBox.Invoke(() =>
                 {
                     StartTimeBox.Value = 0;
@@ -54,6 +79,7 @@ namespace LiteCut
             }
         }
 
+        //start a compression task
         private async void CompressButton_Click(object sender, EventArgs e)
         {
             var size = (int)MbBox.Value;
@@ -80,7 +106,7 @@ namespace LiteCut
             }
             catch (FileNotFoundException ex)
             {
-                MessageBox.Show($"File not found: {ex.FileName}. if this isn't your video file, this error is likely because you haven't installed ffmpeg.");
+                MessageBox.Show($"File not found: {ex.FileName}", "Error");
             }
             catch (Exception ex)
             {
@@ -93,9 +119,9 @@ namespace LiteCut
             {
                 ProgressBar.Value = 0;
             }));
-
         }
 
+        //disable form controls during compression
         private void ToggleFormControls(bool enabled)
         {
             PickFileButton.Invoke(
@@ -110,6 +136,7 @@ namespace LiteCut
           );
         }
 
+        //these methods stop you from setting your end before your start
         private void StartTimeBox_ValueChanged(object sender, EventArgs e)
         {
             EndTimeBox.Minimum = StartTimeBox.Value;

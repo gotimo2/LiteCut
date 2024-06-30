@@ -32,7 +32,7 @@ namespace LiteCut
             double targetFileSizeBytes = targetFileSizeMB * 1024;
             var videoInfo = await FFProbe.AnalyseAsync(inputFilePath);
             double durationSeconds = endTime.TotalSeconds - startTime.TotalSeconds;
-            int targetBitrate = (int)(targetFileSizeBytes * 7 / durationSeconds);
+            int targetBitrate = (int)(targetFileSizeBytes * 7 / durationSeconds); //picking 7 over 8 for a bit of a margin of error
 
             Action<double>? compressionProgressAction = new Action<double>(p =>
             {

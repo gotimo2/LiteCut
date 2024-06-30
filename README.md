@@ -2,7 +2,7 @@
 
 # LiteCut
 
-## You *NEED* ffmpeg to use LiteCut.  The fastest way to install that is to use `winget install ffmpeg`.
+## You need ffmpeg to use LiteCut. It will try to install it for you on launch, but if that doesn't work you'll have to folow [This guide](https://phoenixnap.com/kb/ffmpeg-windows).
 
 # [Download LiteCut here!](https://github.com/gotimo2/LiteCut/releases)
 

@@ -1,6 +1,7 @@
 ![LiteCut icon](./repo_resources/LiteCut.png)
 
 # LiteCut
+A tool to compress .MP4 files down to a size of your choice quickly, while giving you the options to merge audio tracks and specify which part you actually want.
 
 ## You need ffmpeg to use LiteCut. It will try to install it for you on launch, but if that doesn't work you'll have to folow [This guide](https://phoenixnap.com/kb/ffmpeg-windows).
 

@@ -21,7 +21,7 @@ namespace LiteCut
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
-                    CreateNoWindow = true
+                    CreateNoWindow = false
                 };
 
                 using (Process process = new Process())

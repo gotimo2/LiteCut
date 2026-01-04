@@ -11,10 +11,8 @@ namespace LiteCut
             var applicationInfo = new ApplicationInfo("LiteCut", "LiteCut", "LiteCut", Application.ExecutablePath);
             applicationInfo.SupportedExtensions.Add(".mp4");
 
-            IApplicationRegistrationService registrationService = new ApplicationRegistrationService();
-
+            var registrationService = new ApplicationRegistrationService();
             registrationService.RegisterApplication(applicationInfo);
-
-            }
+        }
     }
 }

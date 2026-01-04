@@ -3,7 +3,7 @@ using FFMpegCore.Enums;
 
 namespace LiteCut
 {
-    internal class CompressionTask
+    internal class CompressionTask(string inputFilePath, string outputFilePath, int targetFileSizeMB, TimeSpan startTime, TimeSpan endTime, bool mergeAudio)
     {
         public EventHandler<double>? CompressionProgress;
 
@@ -11,22 +11,6 @@ namespace LiteCut
 
         public EventHandler<string>? CompressionOutput;
 
-        private readonly string inputFilePath;
-        private readonly string outputFilePath;
-        private readonly int targetFileSizeMB;
-        private readonly TimeSpan startTime;
-        private readonly TimeSpan endTime;
-        private readonly bool mergeAudio;
-
-        public CompressionTask(string inputFilePath, string outputFilePath, int targetFileSizeMB, TimeSpan startTime, TimeSpan endTime, bool mergeAudio)
-        {
-            this.inputFilePath = inputFilePath;
-            this.outputFilePath = outputFilePath;
-            this.targetFileSizeMB = targetFileSizeMB;
-            this.startTime = startTime;
-            this.endTime = endTime;
-            this.mergeAudio = mergeAudio;
-        }
         public async Task CompressVideo()
         {
             double targetFileSizeBytes = targetFileSizeMB * 1024;

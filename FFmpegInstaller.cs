@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace LiteCut
 {
-    public static class InstallFFmpeg
+    public static class FFmpegInstaller
     {
-        public static bool installFFmpeg()
+        public static bool InstallFFmpeg()
         {
             try
             {
                 var output = new StringBuilder();
-                ProcessStartInfo startInfo = new ProcessStartInfo
+                ProcessStartInfo startInfo = new()
                 {
                     FileName = "winget",
                     Arguments = $"install ffmpeg",
@@ -24,14 +24,12 @@ namespace LiteCut
                     CreateNoWindow = false
                 };
 
-                using (Process process = new Process())
-                {
-                    process.StartInfo = startInfo;
-                    process.Start();
-                    process.BeginOutputReadLine();
-                    process.BeginErrorReadLine();
-                    process.WaitForExit();
-                }
+                using Process process = new();
+                process.StartInfo = startInfo;
+                process.Start();
+                process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
+                process.WaitForExit();
             }
             catch (Exception ex)
             {

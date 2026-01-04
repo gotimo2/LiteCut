@@ -17,7 +17,7 @@ namespace LiteCut
                 DialogResult result = MessageBox.Show("FFMpeg is not installed, or has no codecs. Do you want to try to install it now?", "error", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
                 {
-                    var installResult = InstallFFmpeg.installFFmpeg();
+                    var installResult = FFmpegInstaller.InstallFFmpeg();
                     if (installResult == true)
                     {
                         MessageBox.Show("Successfully installed FFMpeg!");

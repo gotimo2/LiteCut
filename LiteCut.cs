@@ -12,9 +12,9 @@ namespace LiteCut
             {
                 FFMpeg.GetCodecs();
             }
-            catch
+            catch (Exception e) 
             {
-                DialogResult result = MessageBox.Show("FFMpeg is not installed, or has no codecs. Do you want to try to install it now?", "error", MessageBoxButtons.YesNo);
+                DialogResult result = MessageBox.Show($"Error retrieving FFmpeg codecs: \n {e.Message} \n\n This usually happens when FFmpeg is not installed. Do you want to try to install it now?", "error", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
                 {
                     var installResult = FFmpegInstaller.InstallFFmpeg();
@@ -88,7 +88,7 @@ namespace LiteCut
             var endTime = TimeSpan.FromSeconds((double)EndTimeBox.Value);
             var mergeAudio = MergeAudioTrackCheckBox.Checked;
 
-            CompressionTask compression = new CompressionTask(fileName, fileName + "_compressed.mp4", size, startTime, endTime, mergeAudio );
+            var compression = new CompressionTask(fileName, fileName + "_compressed.mp4", size, startTime, endTime, mergeAudio );
             compression.CompressionProgress += (sender, progress) =>
             {
                 if (ProgressBar.InvokeRequired)
